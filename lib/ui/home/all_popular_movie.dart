@@ -6,7 +6,6 @@ import 'package:getit/data/state/movie_state.dart';
 import 'package:getit/services/cubit/popular_movie_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
-import 'package:getit/ui/home/widgets/load_movie_placeholder.dart';
 import 'package:getit/utils/api_config.dart';
 
 class AllPopularMovie extends StatefulWidget {

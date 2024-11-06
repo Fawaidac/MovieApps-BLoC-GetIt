@@ -78,6 +78,7 @@ class _VideosMovieState extends State<VideosMovie> {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            // ignore: unnecessary_null_comparison
                             if (videoKey != null) {
                               initializeYoutubePlayer(videoKey);
                               setState(() {});

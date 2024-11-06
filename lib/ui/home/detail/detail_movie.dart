@@ -50,6 +50,7 @@ class _DetailMovieState extends State<DetailMovie> {
                 "Error: ${state.errorMessage}",
                 style: AppFonts.montserrat(fontSize: 12, color: whiteColor),
               ));
+              // ignore: unnecessary_null_comparison
             } else if (state.movies != null) {
               final movie = state.movies;
               return Column(
