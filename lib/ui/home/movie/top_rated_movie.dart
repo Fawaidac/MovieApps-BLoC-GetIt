@@ -63,11 +63,15 @@ class _TopRatedMovieState extends State<TopRatedMovie> {
                   itemCount: 5,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return LoadMoviePlaceholder();
+                    return const LoadMoviePlaceholder();
                   },
                 );
               } else if (state.errorMessage.isNotEmpty) {
-                return Center(child: Text(state.errorMessage));
+                return Center(
+                    child: Text(
+                  state.errorMessage,
+                  style: AppFonts.montserrat(fontSize: 12, color: whiteColor),
+                ));
               } else if (state.movies.isEmpty) {
                 return Center(
                     child: Text(

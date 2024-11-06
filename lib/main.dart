@@ -10,7 +10,6 @@ import 'package:getit/services/helper/database_helper.dart';
 import 'package:getit/services/repository/auth_repository.dart';
 import 'package:getit/services/repository/movie_repository.dart';
 import 'package:getit/services/repository/search_repository.dart';
-import 'package:getit/ui/home/search.dart';
 import 'package:getit/utils/api_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:getit/ui/auth/login/login.dart';
