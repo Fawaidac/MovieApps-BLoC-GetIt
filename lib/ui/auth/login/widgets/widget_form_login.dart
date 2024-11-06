@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
+import 'package:getit/services/cubit/auth_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
 import 'package:getit/ui/auth/register/register.dart';
 import 'package:getit/utils/extensions.dart';
-import 'package:getit/widgets/customtextfield.dart';
+import 'package:getit/utils/custom_textfield.dart';
 
 class WidgetFormLogin extends StatelessWidget {
   const WidgetFormLogin({super.key});
@@ -34,6 +37,20 @@ class WidgetFormLogin extends StatelessWidget {
       return null;
     }
 
+    void login() async {
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+
+      final success = await context.read<AuthCubit>().login(email, password);
+      if (success) {
+        Navigator.pushReplacementNamed(context, '/home');
+        Fluttertoast.showToast(msg: "Login Successfully");
+      } else {
+        Fluttertoast.showToast(
+            msg: "Login failed. Please check your credentials");
+      }
+    }
+
     final deviceSize = context.deviceSize;
 
     return Form(
@@ -59,7 +76,11 @@ class WidgetFormLogin extends StatelessWidget {
             height: 48,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  login();
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: blueColor,
                 shape: RoundedRectangleBorder(
@@ -112,12 +133,7 @@ class WidgetFormLogin extends StatelessWidget {
             width: deviceSize.width,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Register(),
-                  ),
-                );
+                Navigator.pushNamed(context, '/register');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

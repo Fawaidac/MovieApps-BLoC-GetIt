@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:getit/ui/auth/login/login.dart';
+import 'package:get_it/get_it.dart';
+import 'package:getit/services/cubit/auth_cubit.dart';
 
 import '../themes/colors.dart';
 import '../themes/fonts.dart';
@@ -16,12 +17,19 @@ class _SplashState extends State<Splash> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
-      );
-    });
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final authCubit = GetIt.I<AuthCubit>();
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (authCubit.state != null) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
   }
 
   @override

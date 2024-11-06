@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
+import 'package:getit/services/cubit/auth_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
 import 'package:getit/utils/extensions.dart';
-import 'package:getit/widgets/customtextfield.dart';
+import 'package:getit/utils/custom_textfield.dart';
 
 class WidgetFormRegister extends StatelessWidget {
   const WidgetFormRegister({super.key});
@@ -57,6 +60,21 @@ class WidgetFormRegister extends StatelessWidget {
       return null;
     }
 
+    void register() async {
+      final username = nameController.text.trim();
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+
+      final success =
+          await context.read<AuthCubit>().register(username, email, password);
+      if (success) {
+        Navigator.pushReplacementNamed(context, '/login');
+        Fluttertoast.showToast(msg: "Registered Successfully");
+      } else {
+        Fluttertoast.showToast(msg: "Registration failed. Try again.");
+      }
+    }
+
     final deviceSize = context.deviceSize;
 
     return Form(
@@ -97,7 +115,11 @@ class WidgetFormRegister extends StatelessWidget {
             height: 48,
             width: deviceSize.width,
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    register();
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: blueColor,
                     shadowColor: Colors.transparent,
