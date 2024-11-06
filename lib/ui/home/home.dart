@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:getit/services/cubit/search_movie_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/ui/home/movie/popular_movie.dart';
 import 'package:getit/ui/home/movie/top_rated_movie.dart';
@@ -19,16 +21,22 @@ class _HomeState extends State<Home> {
   bool isSearching = false;
   final searchController = TextEditingController();
 
+  late SearchMovieCubit searchMovieCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    searchMovieCubit = GetIt.I<SearchMovieCubit>();
+  }
+
   void toggleSearch() {
     Future.microtask(() {
-      if (mounted) {
-        setState(() {
-          isSearching = !isSearching;
-        });
-
-        if (!isSearching) {
-          FocusScope.of(context).unfocus();
-        }
+      setState(() {
+        isSearching = !isSearching;
+      });
+      if (!isSearching) {
+        searchController.clear();
+        FocusScope.of(context).unfocus();
       }
     });
   }
@@ -54,7 +62,11 @@ class _HomeState extends State<Home> {
                     toggleSearch();
                   }
                 },
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    searchMovieCubit.fetchSearchMovies(value);
+                  }
+                },
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -78,7 +90,7 @@ class _HomeState extends State<Home> {
             ),
             Visibility(
               visible: isSearching,
-              child: const Search(),
+              child: Search(query: searchController.text),
             ),
             Visibility(
               visible: !isSearching,

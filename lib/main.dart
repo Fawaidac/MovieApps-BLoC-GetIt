@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:getit/services/cubit/auth_cubit.dart';
 import 'package:getit/services/cubit/popular_movie_cubit.dart';
+import 'package:getit/services/cubit/search_movie_cubit.dart';
 import 'package:getit/services/cubit/top_rated_movie_cubit.dart';
 import 'package:getit/services/cubit/upcoming_movie_cubit.dart';
 import 'package:getit/services/helper/database_helper.dart';
 import 'package:getit/services/repository/auth_repository.dart';
 import 'package:getit/services/repository/movie_repository.dart';
+import 'package:getit/services/repository/search_repository.dart';
 import 'package:getit/ui/home/search.dart';
 import 'package:getit/utils/api_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +42,13 @@ Future<void> setupDependencies() async {
     ),
   );
 
+  getIt.registerLazySingleton<SearchRepository>(
+    () => SearchRepository(
+      apiUrl: ApiConfig.apiSearchUrl,
+      token: ApiConfig.token,
+    ),
+  );
+
   getIt.registerSingleton<AuthCubit>(AuthCubit(getIt<AuthRepository>(), prefs));
   getIt.registerFactory<TopRatedMovieCubit>(
     () => TopRatedMovieCubit(getIt<MovieRepository>()),
@@ -49,6 +58,9 @@ Future<void> setupDependencies() async {
   );
   getIt.registerFactory<UpcomingMovieCubit>(
     () => UpcomingMovieCubit(getIt<MovieRepository>()),
+  );
+  getIt.registerFactory<SearchMovieCubit>(
+    () => SearchMovieCubit(getIt<SearchRepository>()),
   );
 }
 
@@ -63,6 +75,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => GetIt.I<TopRatedMovieCubit>()),
         BlocProvider(create: (_) => GetIt.I<PopularMovieCubit>()),
         BlocProvider(create: (_) => GetIt.I<UpcomingMovieCubit>()),
+        BlocProvider(create: (_) => GetIt.I<SearchMovieCubit>()),
       ],
       child: MaterialApp(
         title: 'FlickNite GetIt',
@@ -77,7 +90,6 @@ class MyApp extends StatelessWidget {
           '/login': (context) => Login(),
           '/register': (context) => Register(),
           '/home': (context) => Home(),
-          '/search': (context) => Search(),
         },
       ),
     );
