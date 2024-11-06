@@ -4,6 +4,7 @@ import 'package:getit/services/cubit/search_movie_cubit.dart';
 import 'package:getit/data/state/movie_state.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
+import 'package:getit/ui/home/detail/detail_movie.dart';
 
 class Search extends StatefulWidget {
   final String query;
@@ -108,7 +109,12 @@ class _SearchState extends State<Search> {
                         AppFonts.montserrat(fontSize: 12, color: Colors.grey),
                   ),
                   onTap: () {
-                    // Implement action when a movie is tapped, if needed.
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailMovie(movieId: movie.id ?? 0),
+                        ));
                   },
                 );
               },
