@@ -7,6 +7,7 @@ import 'package:getit/services/cubit/detail_movie_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
 import 'package:getit/ui/home/detail/widgets/detail_movie_header.dart';
+import 'package:getit/ui/home/detail/widgets/recommendations_movie.dart';
 import 'package:getit/ui/home/detail/widgets/videos_movie.dart';
 import 'package:getit/utils/extensions.dart';
 
@@ -102,6 +103,7 @@ class _DetailMovieState extends State<DetailMovie> {
                               color: whiteColor,
                               fontWeight: FontWeight.normal),
                         ),
+                        RecommendationsMovie(movieId: widget.movieId)
                       ],
                     ),
                   ),

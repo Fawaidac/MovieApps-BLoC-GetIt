@@ -5,6 +5,7 @@ import 'package:getit/services/cubit/auth_cubit.dart';
 import 'package:getit/services/cubit/detail_movie_cubit.dart';
 import 'package:getit/services/cubit/detail_video_cubit.dart';
 import 'package:getit/services/cubit/popular_movie_cubit.dart';
+import 'package:getit/services/cubit/recommendatios_cubit.dart';
 import 'package:getit/services/cubit/search_movie_cubit.dart';
 import 'package:getit/services/cubit/top_rated_movie_cubit.dart';
 import 'package:getit/services/cubit/upcoming_movie_cubit.dart';
@@ -69,6 +70,9 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<DetailVideoCubit>(
     () => DetailVideoCubit(getIt<MovieRepository>()),
   );
+  getIt.registerFactory<RecommendatiosCubit>(
+    () => RecommendatiosCubit(getIt<MovieRepository>()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -85,6 +89,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => GetIt.I<SearchMovieCubit>()),
         BlocProvider(create: (_) => GetIt.I<DetailMovieCubit>()),
         BlocProvider(create: (_) => GetIt.I<DetailVideoCubit>()),
+        BlocProvider(create: (_) => GetIt.I<RecommendatiosCubit>()),
       ],
       child: MaterialApp(
         title: 'FlickNite GetIt',
