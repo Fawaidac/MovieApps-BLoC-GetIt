@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:getit/services/cubit/auth_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
-import 'package:getit/ui/auth/register/register.dart';
 import 'package:getit/utils/extensions.dart';
 import 'package:getit/utils/custom_textfield.dart';
 
