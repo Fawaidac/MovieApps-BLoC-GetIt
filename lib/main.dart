@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:getit/services/cubit/auth_cubit.dart';
+import 'package:getit/services/cubit/popular_movie_cubit.dart';
 import 'package:getit/services/cubit/top_rated_movie_cubit.dart';
+import 'package:getit/services/cubit/upcoming_movie_cubit.dart';
 import 'package:getit/services/helper/database_helper.dart';
 import 'package:getit/services/repository/auth_repository.dart';
 import 'package:getit/services/repository/movie_repository.dart';
+import 'package:getit/ui/home/search.dart';
 import 'package:getit/utils/api_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:getit/ui/auth/login/login.dart';
@@ -41,6 +44,12 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<TopRatedMovieCubit>(
     () => TopRatedMovieCubit(getIt<MovieRepository>()),
   );
+  getIt.registerFactory<PopularMovieCubit>(
+    () => PopularMovieCubit(getIt<MovieRepository>()),
+  );
+  getIt.registerFactory<UpcomingMovieCubit>(
+    () => UpcomingMovieCubit(getIt<MovieRepository>()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -52,6 +61,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => GetIt.I<AuthCubit>()),
         BlocProvider(create: (_) => GetIt.I<TopRatedMovieCubit>()),
+        BlocProvider(create: (_) => GetIt.I<PopularMovieCubit>()),
+        BlocProvider(create: (_) => GetIt.I<UpcomingMovieCubit>()),
       ],
       child: MaterialApp(
         title: 'FlickNite GetIt',
@@ -66,6 +77,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => Login(),
           '/register': (context) => Register(),
           '/home': (context) => Home(),
+          '/search': (context) => Search(),
         },
       ),
     );
