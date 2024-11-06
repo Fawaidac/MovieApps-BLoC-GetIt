@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:getit/data/model/movie.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
+import 'package:getit/ui/home/detail/detail_movie.dart';
 import 'package:getit/utils/api_config.dart';
 import 'package:getit/utils/date_formatter.dart';
 
@@ -14,11 +15,11 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => DetailMovieScreen(movieId: movie.id ?? 0),
-        //     ));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailMovie(movieId: movie.id ?? 0),
+            ));
       },
       child: Container(
         width: 120,
