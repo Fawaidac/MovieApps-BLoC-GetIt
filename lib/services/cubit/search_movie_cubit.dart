@@ -10,10 +10,14 @@ class SearchMovieCubit extends Cubit<MovieState> {
 
   int currentPage = 1;
 
+  void clearSearchResults() {
+    emit(MovieState());
+  }
+
   Future<void> fetchSearchMovies(String query) async {
     if (state.isLoading || !state.hasMoreData) return;
 
-    emit(MovieState(isLoading: true));
+    emit(state.copyWith(isLoading: true));
 
     try {
       final newMovies = await searchRepository.searchMovie(query, currentPage);
@@ -21,7 +25,7 @@ class SearchMovieCubit extends Cubit<MovieState> {
       final updatedMovies = List<Results>.from(state.movies)
         ..addAll(newMovies.results!);
 
-      emit(MovieState(
+      emit(state.copyWith(
         isLoading: false,
         movies: updatedMovies,
         hasMoreData: newMovies.results!.length >= 10,
@@ -29,10 +33,15 @@ class SearchMovieCubit extends Cubit<MovieState> {
 
       currentPage++;
     } catch (error) {
-      emit(MovieState(
+      emit(state.copyWith(
         isLoading: false,
         errorMessage: error.toString(),
       ));
     }
+  }
+
+  void reset() {
+    currentPage = 1;
+    emit(MovieState.initial());
   }
 }

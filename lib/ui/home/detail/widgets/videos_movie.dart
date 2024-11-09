@@ -72,88 +72,88 @@ class _VideosMovieState extends State<VideosMovie> {
                 final videoKey = video.key;
                 if (videoKey != null && ytController == null) {
                   initializeYoutubePlayer(videoKey);
-                  return SizedBox(
-                    width: 250,
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // ignore: unnecessary_null_comparison
-                            if (videoKey != null) {
-                              initializeYoutubePlayer(videoKey);
-                              setState(() {});
-                            }
-                          },
-                          child: Container(
-                            height: 150,
-                            width: 250,
-                            margin: const EdgeInsets.only(right: 10),
-                            child: ytController != null &&
-                                    ytController!.initialVideoId == videoKey
-                                ? YoutubePlayer(
-                                    controller: ytController!,
-                                    showVideoProgressIndicator: true,
-                                  )
-                                : Container(
-                                    color: secondaryColor.withOpacity(0.7),
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          "images/youtube.png",
-                                          height: 50,
-                                        ),
-                                        Text(
-                                          "Tap to play",
-                                          style: AppFonts.montserrat(
-                                            fontSize: 12,
-                                            color: whiteColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                          ),
-                        ),
-                        const Gap(8),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              formatDate(video.publishedAt ?? ""),
-                              style: AppFonts.montserrat(
-                                  fontSize: 11,
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.w300),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ),
-                        const Gap(8),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              video.name ?? 'No Title',
-                              style: AppFonts.montserrat(
-                                  fontSize: 12,
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.start,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
                 }
-                return const SizedBox.shrink();
+                return SizedBox(
+                  width: 250,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          // ignore: unnecessary_null_comparison
+                          if (videoKey != null) {
+                            initializeYoutubePlayer(videoKey);
+                            setState(() {});
+                          }
+                        },
+                        child: Container(
+                          height: 150,
+                          width: 250,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: ytController != null &&
+                                  ytController!.initialVideoId == videoKey
+                              ? YoutubePlayer(
+                                  controller: ytController!,
+                                  showVideoProgressIndicator: true,
+                                )
+                              : Container(
+                                  color: secondaryColor.withOpacity(0.7),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "images/youtube.png",
+                                        height: 50,
+                                      ),
+                                      Text(
+                                        "Tap to play",
+                                        style: AppFonts.montserrat(
+                                          fontSize: 12,
+                                          color: whiteColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const Gap(8),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            formatDate(video.publishedAt ?? ""),
+                            style: AppFonts.montserrat(
+                                fontSize: 11,
+                                color: whiteColor,
+                                fontWeight: FontWeight.w300),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ),
+                      const Gap(8),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            video.name ?? 'No Title',
+                            style: AppFonts.montserrat(
+                                fontSize: 12,
+                                color: whiteColor,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+
+                // return const SizedBox.shrink();
               },
             );
           }

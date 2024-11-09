@@ -62,7 +62,7 @@ class _AllPopularMovieState extends State<AllPopularMovie> {
       backgroundColor: primaryColor,
       body: SafeArea(
           child: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: BlocBuilder<PopularMovieCubit, MovieState>(
           builder: (context, state) {
             if (state.isLoading && state.movies.isEmpty) {

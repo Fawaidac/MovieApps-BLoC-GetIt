@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getit/services/cubit/search_movie_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/ui/home/movie/popular_movie.dart';
@@ -20,23 +22,21 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isSearching = false;
   final searchController = TextEditingController();
-
-  late SearchMovieCubit searchMovieCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    searchMovieCubit = GetIt.I<SearchMovieCubit>();
-  }
+  String currentQuery = '';
 
   void toggleSearch() {
     Future.microtask(() {
-      setState(() {
-        isSearching = !isSearching;
-      });
-      if (!isSearching) {
-        searchController.clear();
-        FocusScope.of(context).unfocus();
+      if (mounted) {
+        setState(() {
+          isSearching = !isSearching;
+        });
+
+        if (!isSearching) {
+          currentQuery = ''; // Clear the current query when search is closed
+          searchController.clear(); // Optionally clear the text field
+          context.read<SearchMovieCubit>().clearSearchResults();
+          FocusScope.of(context).unfocus();
+        }
       }
     });
   }
@@ -62,9 +62,12 @@ class _HomeState extends State<Home> {
                     toggleSearch();
                   }
                 },
-                onChanged: (value) {
-                  if (value.isNotEmpty) {
-                    searchMovieCubit.fetchSearchMovies(value);
+                onChanged: (query) {
+                  setState(() {
+                    currentQuery = query;
+                  });
+                  if (query != currentQuery) {
+                    context.read<SearchMovieCubit>().fetchSearchMovies(query);
                   }
                 },
                 decoration: InputDecoration(
@@ -90,7 +93,7 @@ class _HomeState extends State<Home> {
             ),
             Visibility(
               visible: isSearching,
-              child: Search(query: searchController.text),
+              child: Search(query: currentQuery),
             ),
             Visibility(
               visible: !isSearching,

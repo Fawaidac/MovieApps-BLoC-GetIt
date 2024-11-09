@@ -34,11 +34,7 @@ class WidgetTopHome extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => ProfileScreen(),
-            //     ));
+            Navigator.pushNamed(context, '/profile');
           },
           child: const CircleAvatar(
             radius: 20,

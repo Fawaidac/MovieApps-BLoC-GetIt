@@ -34,6 +34,7 @@ class _DetailMovieState extends State<DetailMovie> {
   Widget build(BuildContext context) {
     final deviceSize = context.deviceSize;
     return Scaffold(
+      backgroundColor: primaryColor,
       body: SafeArea(
           child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -104,6 +105,7 @@ class _DetailMovieState extends State<DetailMovie> {
                               color: whiteColor,
                               fontWeight: FontWeight.normal),
                         ),
+                        const Gap(10),
                         RecommendationsMovie(movieId: widget.movieId)
                       ],
                     ),

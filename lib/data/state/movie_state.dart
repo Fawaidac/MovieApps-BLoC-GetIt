@@ -13,6 +13,29 @@ class MovieState {
     this.hasMoreData = true,
     this.errorMessage = '',
   });
+
+  factory MovieState.initial() {
+    return MovieState(
+      isLoading: false,
+      movies: [],
+      hasMoreData: true,
+      errorMessage: '',
+    );
+  }
+
+  MovieState copyWith({
+    bool? isLoading,
+    List<Results>? movies,
+    bool? hasMoreData,
+    String? errorMessage,
+  }) {
+    return MovieState(
+      isLoading: isLoading ?? this.isLoading,
+      movies: movies ?? this.movies,
+      hasMoreData: hasMoreData ?? this.hasMoreData,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 }
 
 class DetailMovieState {

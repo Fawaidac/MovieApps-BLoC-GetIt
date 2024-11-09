@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getit/data/state/movie_state.dart';
-import 'package:getit/services/cubit/recommendatios_cubit.dart';
+import 'package:getit/services/cubit/recommendations_cubit.dart';
 import 'package:getit/themes/colors.dart';
 import 'package:getit/themes/fonts.dart';
 import 'package:getit/ui/home/widgets/load_movie_placeholder.dart';
@@ -24,7 +24,7 @@ class _RecommendationsMovieState extends State<RecommendationsMovie> {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     context
-        .read<RecommendatiosCubit>()
+        .read<RecommendationsCubit>()
         .fetchRecommendationsMovies(widget.movieId);
   }
 
@@ -32,7 +32,7 @@ class _RecommendationsMovieState extends State<RecommendationsMovie> {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
       context
-          .read<RecommendatiosCubit>()
+          .read<RecommendationsCubit>()
           .fetchRecommendationsMovies(widget.movieId);
     }
   }
@@ -61,7 +61,7 @@ class _RecommendationsMovieState extends State<RecommendationsMovie> {
         ),
         SizedBox(
           height: 220,
-          child: BlocBuilder<RecommendatiosCubit, MovieState>(
+          child: BlocBuilder<RecommendationsCubit, MovieState>(
             builder: (context, state) {
               if (state.isLoading && state.movies.isEmpty) {
                 return ListView.builder(

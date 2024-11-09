@@ -16,38 +16,41 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  final ScrollController _scrollController = ScrollController();
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     _fetchMovies();
   }
 
   void _fetchMovies() {
-    final searchCubit = context.read<SearchMovieCubit>();
-    searchCubit.fetchSearchMovies(widget.query);
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.9) {
-      _fetchMovies();
+    if (widget.query.isNotEmpty) {
+      final searchCubit = context.read<SearchMovieCubit>();
+      searchCubit.clearSearchResults();
+      searchCubit.fetchSearchMovies(widget.query);
     }
   }
 
   @override
   void didUpdateWidget(covariant Search oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.query != widget.query) {
+    if (widget.query != oldWidget.query) {
       _fetchMovies();
+    }
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      context.read<SearchMovieCubit>().fetchSearchMovies(widget.query);
     }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
@@ -58,6 +61,7 @@ class _SearchState extends State<Search> {
       height: MediaQuery.of(context).size.height,
       color: Colors.transparent,
       child: BlocBuilder<SearchMovieCubit, MovieState>(
+        // bloc: GetIt.I<SearchMovieCubit>(),
         builder: (context, state) {
           if (state.isLoading && state.movies.isEmpty) {
             return Center(
@@ -82,9 +86,8 @@ class _SearchState extends State<Search> {
           } else {
             return ListView.builder(
               controller: _scrollController,
-              itemCount: state.hasMoreData
-                  ? state.movies.length + 1
-                  : state.movies.length,
+              shrinkWrap: true,
+              itemCount: state.movies.length + (state.isLoading ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == state.movies.length) {
                   return Center(

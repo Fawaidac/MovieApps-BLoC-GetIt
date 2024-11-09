@@ -44,9 +44,9 @@ class _UpcomingMovieState extends State<UpcomingMovie> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Text(
-            'Top Rated Movies',
+            'Upcoming Movies',
             style: AppFonts.montserrat(
               fontSize: 16,
               color: whiteColor,

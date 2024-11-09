@@ -13,7 +13,7 @@ class TopRatedMovieCubit extends Cubit<MovieState> {
   Future<void> fetchTopRatedMovies() async {
     if (state.isLoading || !state.hasMoreData) return;
 
-    emit(MovieState(isLoading: true));
+    emit(state.copyWith(isLoading: true));
 
     try {
       final newMovies = await movieRepository.fetchTopRatedMovies(currentPage);
@@ -21,7 +21,7 @@ class TopRatedMovieCubit extends Cubit<MovieState> {
       final updatedMovies = List<Results>.from(state.movies)
         ..addAll(newMovies.results!);
 
-      emit(MovieState(
+      emit(state.copyWith(
         isLoading: false,
         movies: updatedMovies,
         hasMoreData: newMovies.results!.length >= 10,
@@ -29,7 +29,7 @@ class TopRatedMovieCubit extends Cubit<MovieState> {
 
       currentPage++;
     } catch (error) {
-      emit(MovieState(
+      emit(state.copyWith(
         isLoading: false,
         errorMessage: error.toString(),
       ));
