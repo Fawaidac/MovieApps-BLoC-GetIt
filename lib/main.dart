@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:getit/services/cubit/auth_cubit.dart';
 import 'package:getit/services/cubit/detail_movie_cubit.dart';
@@ -21,9 +22,10 @@ import 'package:getit/ui/auth/register/register.dart';
 import 'package:getit/ui/home/home.dart';
 import 'package:getit/ui/splash.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupDependencies();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
